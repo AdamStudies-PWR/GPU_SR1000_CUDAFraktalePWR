@@ -3,6 +3,7 @@
 #include "GLManager.hpp"
 #include "STriangleSeq.hpp"
 #include "mandelbrotSequential.hpp"
+#include "mandelbrotParallel.hpp"
 
 // Przykładowa funkcja rysujaca
 void RenderScene(void){
@@ -16,12 +17,19 @@ void mandelbrotSequential(void)
     ms.generateFractal();    
 }
 
+void mandelbrotParallel(void)
+{
+    CudaFractals::Parallel::Mandelbrot mp;
+    mp.renderFunction();
+}
+
+
 int main(int argc, char* argv[])
 {
     
     // Tutaj podajemy wskaźniki na pisane przez nas funkcje rysujące odpowiednie fraktale
 
-    CudaFractals::Interface interf(mandelbrotSequential, nullptr, STriangleSeq::DrawTriangleList, nullptr);
+    CudaFractals::Interface interf(mandelbrotSequential, mandelbrotParallel, STriangleSeq::DrawTriangleList, nullptr);
     std::cout << "Checking GPU..." << std::endl;
 
     if (interf.detectGPU()) {

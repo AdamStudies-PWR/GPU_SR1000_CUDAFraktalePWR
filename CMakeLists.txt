@@ -13,9 +13,9 @@ include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
 include_directories("include/")
 file(GLOB SOURCES "src/*.cpp" "src/*.cu")
 
-add_executable(FractalApp main.cu ${SOURCES} "include/GLManager.hpp" "src/GLManager.cpp" "include/STriangleSeq.hpp" "src/STriangleSeq.cpp" "include/mandelbrotSequential.hpp" "src/mandelbrotSequential.cpp")
+add_executable(FractalApp main.cu ${SOURCES} "include/GLManager.hpp" "src/GLManager.cpp" "include/STriangleSeq.hpp" "src/STriangleSeq.cpp" "include/mandelbrotSequential.hpp" "src/mandelbrotSequential.cpp" "include/mandelbrotParallel.hpp" "src/mandelbrotParallel.cu")
 target_compile_features(FractalApp PUBLIC cxx_std_17)
-target_link_libraries(FractalApp ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
+target_link_libraries(FractalApp ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} GLUT::GLUT)
 
 include(CTest)
 enable_testing()
