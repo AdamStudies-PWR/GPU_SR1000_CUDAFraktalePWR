@@ -47,6 +47,7 @@ void MandelbrotSequential::draw()
 {
     int counter = 0;
     float scale;
+    float r, g, b;
 
     glClear(GL_COLOR_BUFFER_BIT);
         glPointSize(1.0f);
@@ -56,7 +57,13 @@ void MandelbrotSequential::draw()
                 for (int j=-(height/2); j<height/2; j++)
                 {
                     scale = 0.02 * fractal[counter];
-                    glColor3f(0.5 - scale/2, 1.0 - scale, 0.5 - scale/2);
+                    r = (0.5 - scale/2);
+                    r = r < 0 ? 0 : r;
+                    g = (1.0 - scale);
+                    g = g < 0 ? 0 : g;
+                    b = (0.5 - scale/2);
+                    b = b < 0 ? 0 : b;
+                    glColor3f(r, g, b);
                     glVertex2i(i, j);
                     counter++;
                 }
