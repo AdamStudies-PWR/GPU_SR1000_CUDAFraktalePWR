@@ -13,12 +13,12 @@ private:
     static int LENGTH;
     static int height;
     static int width;
-private:
-    static int mandelbrot(std::complex<float> C);
+    static int *fractal;
+
+    static int mandelbrotPoint(std::complex<float> C);
+
 public:
     static void draw();
     static double generateFractal(int length);
-    static void setLength();
-
 };
 }  // namespace CudaFractals

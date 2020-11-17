@@ -4,7 +4,7 @@
 
 using namespace CudaFractals;
 
-int *fractal;
+int *MandelbrotSequential::fractal;
 int MandelbrotSequential::height;
 int MandelbrotSequential::width;
 int MandelbrotSequential::LENGTH;
@@ -33,7 +33,7 @@ double MandelbrotSequential::generateFractal(int length)
             x = (float)(i - width/4)/(width/3.5);
             y = (float)j/(height/2);
             std::complex<float> C(x, y);
-            fractal[counter] = mandelbrot(C);
+            fractal[counter] = mandelbrotPoint(C);
             counter++;
         }
     }  
@@ -65,7 +65,7 @@ void MandelbrotSequential::draw()
     glFlush();
 }
 
-int MandelbrotSequential::mandelbrot(std::complex<float> C)
+int MandelbrotSequential::mandelbrotPoint(std::complex<float> C)
 {  
     std::complex<float> Z(0, 0);
     int counter = 0;
