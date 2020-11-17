@@ -4,7 +4,8 @@
 
 using namespace CudaFractals;
 
-int *MandelbrotSequential::fractal;
+std::vector<MandelbrotSequential::Colors> MandelbrotSequential::colors;
+
 int MandelbrotSequential::height;
 int MandelbrotSequential::width;
 int MandelbrotSequential::LENGTH;
@@ -21,9 +22,11 @@ double MandelbrotSequential::generateFractal(int length)
     width = GLManager::getWidth();
     int counter = 0;
 
-    fractal = new int[width * height];
+    Colors pixel;
+    colors.clear();
+    colors.reserve(width * height);
 
-    float x,y;
+    float x, y, scale, r, g, b;
 
     for (int i=-(width/2); i<width/2; i++)
     {
@@ -33,7 +36,15 @@ double MandelbrotSequential::generateFractal(int length)
             x = (float)(i - width/4)/(width/3.5);
             y = (float)j/(height/2);
             std::complex<float> C(x, y);
-            fractal[counter] = mandelbrotPoint(C);
+            scale = mandelbrotPoint(C) * 0.02;
+            r = (0.5 - scale/2);
+            r = r < 0 ? 0 : r;
+            g = (1.0 - scale);
+            g = g < 0 ? 0 : g;
+            b = (0.5 - scale/2);
+            b = b < 0 ? 0 : b;
+            pixel = {r, g, b};
+            colors.push_back(pixel);
             counter++;
         }
     }  
@@ -56,14 +67,7 @@ void MandelbrotSequential::draw()
             {
                 for (int j=-(height/2); j<height/2; j++)
                 {
-                    scale = 0.02 * fractal[counter];
-                    r = (0.5 - scale/2);
-                    r = r < 0 ? 0 : r;
-                    g = (1.0 - scale);
-                    g = g < 0 ? 0 : g;
-                    b = (0.5 - scale/2);
-                    b = b < 0 ? 0 : b;
-                    glColor3f(r, g, b);
+                    glColor3f(colors[counter].r, colors[counter].g, colors[counter].b);
                     glVertex2i(i, j);
                     counter++;
                 }
