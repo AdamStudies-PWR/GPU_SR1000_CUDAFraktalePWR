@@ -1,22 +1,24 @@
 #pragma once
 
 #include<complex>
-
-#define LENGTH 100
+#include <ctime>
+#include <ratio>
+#include <chrono>
 
 namespace CudaFractals 
 {
 class MandelbrotSequential
 {
-
 private:
-    int *fractal;
-    int height;
-    int width;
-    int mandelbrot(std::complex<float> C);
-    void draw();
+    static int LENGTH;
+    static int height;
+    static int width;
+private:
+    static int mandelbrot(std::complex<float> C);
 public:
-    void generateFractal();
+    static void draw();
+    static double generateFractal(int length);
+    static void setLength();
 
 };
 }  // namespace CudaFractals

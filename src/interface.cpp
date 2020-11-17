@@ -4,6 +4,7 @@
 #include "cudaCheck.hpp"
 #include "GLManager.hpp"
 #include "STriangleSeq.hpp"
+#include "mandelbrotSequential.hpp"
 
 using namespace CudaFractals;
 
@@ -38,6 +39,7 @@ bool Interface::detectGPU() const
 
 void Interface::mainMenu(int* argc, char** argv) const
 {
+    double result = 0;
     static std::string menu = "";
     menu.append("------------CUDA Fractals------------\n");
     menu.append("[1] Mandelbrot set - Sequential\n");
@@ -63,7 +65,12 @@ void Interface::mainMenu(int* argc, char** argv) const
                 getchar();
             }
             else
+                std::cout << "Set length: ";
+                std::cin >> itrInput;
+                result = MandelbrotSequential::generateFractal(itrInput);
                 GLManager::GLInitialize(argc, argv, seqMandelbrotDisplay);
+                std::cout << "Duration: " << result << " s";
+                getchar();  
             break;
         case '2':
             if (parMandelbrotDisplay == nullptr)
@@ -85,7 +92,8 @@ void Interface::mainMenu(int* argc, char** argv) const
                 std::cin >> itrInput;
                 STriangleSeq::Generate(itrInput);
                 std::cout << "Duration: "<<STriangleSeq::GetTime()<<" s";
-                GLManager::GLInitialize(argc, argv, seqSTrinagleDisplay);             
+                GLManager::GLInitialize(argc, argv, seqSTrinagleDisplay);
+                getchar();             
             break;
         case '4':
             if (parSTriangleDisplay == nullptr)

@@ -11,11 +11,12 @@ void RenderScene(void){
     glFlush();    
 }
 
-void mandelbrotSequential(void)
+/*void mandelbrotSequential(void)
 {
     CudaFractals::MandelbrotSequential ms;
-    ms.generateFractal();    
-}
+    double result = ms.generateFractal();    
+    std::cout<<"Generated in: "<<result<<std::endl;
+}*/
 
 void mandelbrotParallel(void)
 {
@@ -29,7 +30,7 @@ int main(int argc, char* argv[])
     
     // Tutaj podajemy wskaźniki na pisane przez nas funkcje rysujące odpowiednie fraktale
 
-    CudaFractals::Interface interf(mandelbrotSequential, mandelbrotParallel, STriangleSeq::DrawTriangleList, nullptr);
+    CudaFractals::Interface interf(CudaFractals::MandelbrotSequential::draw, mandelbrotParallel, STriangleSeq::DrawTriangleList, nullptr);
     std::cout << "Checking GPU..." << std::endl;
 
     if (interf.detectGPU()) {

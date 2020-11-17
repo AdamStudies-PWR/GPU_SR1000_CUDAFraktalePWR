@@ -1,9 +1,6 @@
 #include "interface.hpp"
 #include "GLManager.hpp"
 
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
-
 void GLManager::ChangeSize(GLsizei horizontal, GLsizei vertical)
 {
     glMatrixMode(GL_PROJECTION);
@@ -29,11 +26,11 @@ void GLManager::GLInitialize(int* argc, char** argv, void(*displayCallback)(void
 
 int GLManager::getHeight()
 {
-    return glutGet(GLUT_WINDOW_HEIGHT);
+    return WINDOW_HEIGHT;
 }
 
 
 int GLManager::getWidth()
 {
-    return glutGet(GLUT_WINDOW_WIDTH);
+    return WINDOW_WIDTH;
 }

@@ -4,8 +4,19 @@
 
 using namespace CudaFractals;
 
-void MandelbrotSequential::generateFractal()
+int *fractal;
+int MandelbrotSequential::height;
+int MandelbrotSequential::width;
+int MandelbrotSequential::LENGTH;
+
+double MandelbrotSequential::generateFractal(int length)
 {
+    if(length <= 0) LENGTH = 100;
+    else LENGTH = length;
+    std::chrono::high_resolution_clock::time_point start;
+	std::chrono::high_resolution_clock::time_point stop;
+    start = std::chrono::high_resolution_clock::now();
+
     height = GLManager::getHeight();
     width = GLManager::getWidth();
     int counter = 0;
@@ -27,7 +38,9 @@ void MandelbrotSequential::generateFractal()
         }
     }  
 
-    draw();
+    stop = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
+    return duration.count();
 }
 
 void MandelbrotSequential::draw()
