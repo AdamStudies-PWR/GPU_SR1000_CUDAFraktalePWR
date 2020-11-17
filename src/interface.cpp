@@ -58,19 +58,28 @@ void Interface::mainMenu(int* argc, char** argv) const
         {
         case '1':
             if (seqMandelbrotDisplay == nullptr)
+            {
                 std::cout << "Drawing callback not assigned\n";
+                getchar();
+            }
             else
                 GLManager::GLInitialize(argc, argv, seqMandelbrotDisplay);
             break;
         case '2':
             if (parMandelbrotDisplay == nullptr)
+            {
                 std::cout << "Drawing callback not assigned\n";
+                getchar();
+            }
             else
                 GLManager::GLInitialize(argc, argv, parMandelbrotDisplay);
             break;
         case '3':
             if (seqSTrinagleDisplay == nullptr)
+            {
                 std::cout << "Drawing callback not assigned\n";
+                getchar();
+            }
             else
                 std::cout << "Iterations: ";
                 std::cin >> itrInput;
@@ -80,7 +89,10 @@ void Interface::mainMenu(int* argc, char** argv) const
             break;
         case '4':
             if (parSTriangleDisplay == nullptr)
+            {
                 std::cout << "Drawing callback not assigned\n";
+                getchar();
+            }
             else
                 GLManager::GLInitialize(argc, argv, parSTriangleDisplay);
             break;

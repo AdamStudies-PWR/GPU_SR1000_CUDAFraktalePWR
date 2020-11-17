@@ -1,4 +1,6 @@
 #include "GLManager.hpp"
+
+#include <cmath>
 #include <vector>
 #include <ctime>
 #include <ratio>
