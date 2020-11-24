@@ -19,7 +19,6 @@ double MandelbrotSequential::generateFractal(int length)
 
     height = GLManager::getHeight();
     width = GLManager::getWidth();
-    int counter = 0;
 
     Colors pixel;
     colors.clear();
@@ -44,7 +43,6 @@ double MandelbrotSequential::generateFractal(int length)
             b = b < 0 ? 0 : b;
             pixel = {r, g, b};
             colors.push_back(pixel);
-            counter++;
         }
     }  
 
