@@ -12,8 +12,7 @@ int MandelbrotSequential::LENGTH;
 
 double MandelbrotSequential::generateFractal(int length)
 {
-    if(length <= 0) LENGTH = 100;
-    else LENGTH = length;
+    length <= 0 ? LENGTH = 100: LENGTH = length;
     std::chrono::high_resolution_clock::time_point start;
 	std::chrono::high_resolution_clock::time_point stop;
     start = std::chrono::high_resolution_clock::now();

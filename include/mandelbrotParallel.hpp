@@ -6,27 +6,31 @@
 #endif
 #include <GL/gl.h>
 
-namespace CudaFractals {
-namespace Parallel {
+namespace CudaFractals
+{
+    namespace Parallel
+    {
+        struct point_t
+        {
+            float x;
+            float y;
+        };
 
-    struct point_t {
-        float x;
-        float y;
-    };
+        class Mandelbrot
+        {
+        public:
+            Mandelbrot() = default;
+            ~Mandelbrot() = default;
 
-    class Mandelbrot {
-    public:
-        Mandelbrot() = default;
-        ~Mandelbrot() = default;
+            static void renderFunction(int limit);
+            static void draw();
 
-        void renderFunction();
+        private:
+            static float3 *hostArr;
+            static float3 *devArr;
+            static int height;
+            static int width;
+        };
 
-    private:
-        void draw(const int width, const int height);
-
-        float3* hostArr = nullptr;
-        float3* devArr = nullptr;
-    };
-
-}
-}
+    } // namespace Parallel
+} // namespace CudaFractals

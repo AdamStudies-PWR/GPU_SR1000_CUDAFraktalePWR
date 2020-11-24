@@ -5,6 +5,7 @@
 #include "GLManager.hpp"
 #include "STriangleSeq.hpp"
 #include "mandelbrotSequential.hpp"
+#include "mandelbrotParallel.hpp"
 
 using namespace CudaFractals;
 
@@ -79,6 +80,9 @@ void Interface::mainMenu(int* argc, char** argv) const
                 getchar();
             }
             else
+                std::cout << "Set length: ";
+                std::cin >> itrInput;
+                Parallel::Mandelbrot::renderFunction(itrInput);
                 GLManager::GLInitialize(argc, argv, parMandelbrotDisplay);
             break;
         case '3':

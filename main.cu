@@ -21,7 +21,7 @@ void RenderScene(void){
 void mandelbrotParallel(void)
 {
     CudaFractals::Parallel::Mandelbrot mp;
-    mp.renderFunction();
+    mp.draw();
 }
 
 
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
     
     // Tutaj podajemy wskaźniki na pisane przez nas funkcje rysujące odpowiednie fraktale
 
-    CudaFractals::Interface interf(CudaFractals::MandelbrotSequential::draw, mandelbrotParallel, STriangleSeq::DrawTriangleList, nullptr);
+    CudaFractals::Interface interf(CudaFractals::MandelbrotSequential::draw, CudaFractals::Parallel::Mandelbrot::draw, STriangleSeq::DrawTriangleList, nullptr);
     std::cout << "Checking GPU..." << std::endl;
 
     if (interf.detectGPU()) {

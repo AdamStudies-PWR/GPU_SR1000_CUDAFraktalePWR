@@ -9,7 +9,14 @@
 #include "cudaCheck.hpp"
 #include "mandelbrotParallel.hpp"
 
+#include <iostream>
+
 using namespace CudaFractals::Parallel;
+
+float3 *Mandelbrot::hostArr = nullptr;
+float3 *Mandelbrot::devArr = nullptr;
+int Mandelbrot::height;
+int Mandelbrot::width;
 
 __device__ inline point_t scalePoint(const point_t point, const int width, const int height) {
   return {xScaleMandelbrotStart + point.x * (xScaleMandelbrotWidth / (float)width),
@@ -38,12 +45,11 @@ __device__ inline int calcMandelbrotPoint(const point_t point, const int width, 
   return i;
 }
 
-__global__ void calcMandelbrot(float3 *dst, const int width, const int height) {
+__global__ void calcMandelbrot(float3 *dst, const int width, const int height, const int maxIter) {
   const float3 colors = {0.005f, 0.005f, 0.01f};
   const int pixel = blockIdx.x * blockDim.x + threadIdx.x;
   const int ix = pixel % width;
   const int iy = (pixel - ix) / width;
-  const int maxIter = 100;
 
   if (ix < width && iy < height) {
     int m = calcMandelbrotPoint({(float)ix, (float)iy}, width, height, maxIter);
@@ -61,27 +67,26 @@ __global__ void calcMandelbrot(float3 *dst, const int width, const int height) {
   }
 }
 
-void Mandelbrot::renderFunction(void) {
-  const int width = GLManager::getWidth();
-  const int height = GLManager::getHeight();
+void Mandelbrot::renderFunction(int limit) {
+  if (limit <= 0) limit = 100;
+  width = GLManager::getWidth();
+  height = GLManager::getHeight();
 
+  delete[] hostArr;
   hostArr = new float3[width * height];
   CUDA_CHECK(cudaMalloc((void **)&devArr, width * height * sizeof(float3)));
 
   dim3 blockDims(512, 1, 1);
   dim3 gridDims((unsigned int)ceil((double)(width * height / blockDims.x)), 1, 1);
 
-  calcMandelbrot<<<gridDims, blockDims>>>(devArr, width, height);
+  calcMandelbrot<<<gridDims, blockDims>>>(devArr, width, height, limit);
   CUDA_CHECK(cudaMemcpy(hostArr, devArr, width * height * sizeof(float3),
                         cudaMemcpyDeviceToHost));
 
-  draw(width, height);
-
   CUDA_CHECK(cudaFree(devArr));
-  delete[] hostArr;
 }
 
-void Mandelbrot::draw(const int width, const int height) {
+void Mandelbrot::draw(void) {
   int counter = 0;
   float3 *col;
 
@@ -96,7 +101,7 @@ void Mandelbrot::draw(const int width, const int height) {
       counter++;
     }
   }
+
   glEnd();
   glFlush();
-  printf("Drawn\n");
 }
