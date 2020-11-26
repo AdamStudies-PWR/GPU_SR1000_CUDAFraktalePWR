@@ -11,7 +11,7 @@ double STrianglePar::time;
 __global__ void SubdivideTriangles(STrianglePar::Triangle* sourceTriangles, STrianglePar::Triangle* subdividedTriangles) {
 	STrianglePar::Vertex2D p3, p4, p5;
 	STrianglePar::Triangle triangle{0,0,0};
-	int baseIndex = 3 * blockIdx.x;
+	long long baseIndex = 3 * blockIdx.x;
 	
 	p3.x = sourceTriangles[blockIdx.x].p0.x + (abs(sourceTriangles[blockIdx.x].p1.x - sourceTriangles[blockIdx.x].p0.x) / 2.0f);
 	p3.y = sourceTriangles[blockIdx.x].p0.y;
