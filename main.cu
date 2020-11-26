@@ -2,6 +2,7 @@
 #include "interface.hpp"
 #include "GLManager.hpp"
 #include "STriangleSeq.hpp"
+#include "STrianglePar.hpp"
 #include "mandelbrotSequential.hpp"
 #include "mandelbrotParallel.hpp"
 
@@ -30,7 +31,7 @@ int main(int argc, char* argv[])
     
     // Tutaj podajemy wskaźniki na pisane przez nas funkcje rysujące odpowiednie fraktale
 
-    CudaFractals::Interface interf(CudaFractals::MandelbrotSequential::draw, CudaFractals::Parallel::Mandelbrot::draw, STriangleSeq::DrawTriangleList, nullptr);
+    CudaFractals::Interface interf(CudaFractals::MandelbrotSequential::draw, CudaFractals::Parallel::Mandelbrot::draw, STriangleSeq::DrawTriangleList, STrianglePar::DrawTriangleList);
     std::cout << "Checking GPU..." << std::endl;
 
     if (interf.detectGPU()) {

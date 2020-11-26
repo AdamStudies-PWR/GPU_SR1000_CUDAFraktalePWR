@@ -4,6 +4,7 @@
 #include "cudaCheck.hpp"
 #include "GLManager.hpp"
 #include "STriangleSeq.hpp"
+#include "STrianglePar.hpp"
 #include "mandelbrotSequential.hpp"
 #include "mandelbrotParallel.hpp"
 
@@ -106,7 +107,13 @@ void Interface::mainMenu(int* argc, char** argv) const
                 getchar();
             }
             else
+                std::cout << "Iterations: ";
+                std::cin >> itrInput;
+                STrianglePar::SetupDrawingColor(0.5f, 0.5f, 1.0f);
+                STrianglePar::Generate(itrInput);
+                std::cout << "Duration: "<<STrianglePar::GetTime()<<" s";
                 GLManager::GLInitialize(argc, argv, parSTriangleDisplay);
+                getchar();  
             break;
         case '5':
             printCredits();
