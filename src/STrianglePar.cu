@@ -50,10 +50,10 @@ void STrianglePar::Generate(int iterations) {
 	Triangle* sourceTrisOnDevice;
 	Triangle* subdividedTrisOnDevice;
 	Triangle triangle = { p0, p1, p2 };
-	int subdividedTrisVecSize;
-	int numBlocks;
+	long long subdividedTrisVecSize;
+	long long numBlocks;
 
-	triangles.clear();
+	triangles.resize(pow(3, (double)iterations));
 	time = 0;
 	
 	start = std::chrono::high_resolution_clock::now();
@@ -74,18 +74,12 @@ void STrianglePar::Generate(int iterations) {
 		sourceTrisOnDevice = subdividedTrisOnDevice;		
 	}
 	
-	stop = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
-	time += duration.count();
-	
-	triangles.resize(subdividedTrisVecSize / sizeof(Triangle));
-
-	start = std::chrono::high_resolution_clock::now();
 	cudaMemcpy(triangles.data(), sourceTrisOnDevice, subdividedTrisVecSize, cudaMemcpyDeviceToHost);
 	cudaFree(subdividedTrisOnDevice);
+
 	stop = std::chrono::high_resolution_clock::now();
-	duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
-	time += duration.count();	
+	std::chrono::duration<double> duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
+	time = duration.count();	
 }
 
 void STrianglePar::DrawTriangleList() {
