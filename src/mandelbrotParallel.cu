@@ -124,3 +124,8 @@ void Mandelbrot::setBlockSize(int size)
 {
   if(size > 0) blockSize = size;
 }
+
+int Mandelbrot::getBlockSize()
+{
+	return blockSize;
+}

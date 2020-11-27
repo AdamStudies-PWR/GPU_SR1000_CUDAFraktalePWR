@@ -61,6 +61,76 @@ void Tests::testMandelbrotP(std::string filename, int depth)
     file.close();
 }
 
+void Tests::singleTriangleS(int res, int depth)
+{
+    int original = GLManager::getWidth();
+    GLManager::setResolution(res);
+
+    std::string filename = "r";
+    filename.append(std::to_string(GLManager::getWidth()));
+    filename.append("d");
+    filename.append(std::to_string(depth));
+
+    testTriangleS(filename, depth);
+
+    GLManager::setResolution(original);
+}
+void Tests::singleTriangleP(int res, int block, int depth)
+{
+    int originalres = GLManager::getWidth();
+    int originalblock = STrianglePar::getBlockSize();
+
+    GLManager::setResolution(res);
+    STrianglePar::setBlockSize(block);
+
+    std::string filename = "r";
+    filename.append(std::to_string(GLManager::getWidth()));
+    filename.append("b");
+    filename.append(std::to_string(block));
+    filename.append("d");
+    filename.append(std::to_string(depth));
+
+
+    testTriangleP(filename, depth);
+
+    GLManager::setResolution(originalres);
+    STrianglePar::setBlockSize(originalblock);
+}
+void Tests::singleMandelbrotS(int res, int depth)
+{
+    int original = GLManager::getWidth();
+    GLManager::setResolution(res);
+
+    std::string filename = "r";
+    filename.append(std::to_string(GLManager::getWidth()));
+    filename.append("d");
+    filename.append(std::to_string(depth));
+
+    testMandelbrotS(filename, depth);
+
+    GLManager::setResolution(original);
+}
+void Tests::singleMandelbrotP(int res, int block, int depth)
+{
+    int originalres = GLManager::getWidth();
+    int originalblock = Parallel::Mandelbrot::getBlockSize();
+
+    GLManager::setResolution(res);
+    Parallel::Mandelbrot::setBlockSize(block);
+
+    std::string filename = "r";
+    filename.append(std::to_string(GLManager::getWidth()));
+    filename.append("b");
+    filename.append(std::to_string(block));
+    filename.append("d");
+    filename.append(std::to_string(depth));
+
+    testMandelbrotS(filename, depth);
+
+    GLManager::setResolution(originalres);
+    Parallel::Mandelbrot::setBlockSize(originalblock);
+}
+
 void Tests::runDepthTest()
 {
     int depth;

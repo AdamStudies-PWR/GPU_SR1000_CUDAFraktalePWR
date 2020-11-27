@@ -29,5 +29,6 @@ public:
     static void Generate(int iterations);
     static void DrawTriangleList();
     static double GetTime();
-    static void setBlockSize(int);
+    static void setBlockSize(int size);
+    static int getBlockSize();
 };

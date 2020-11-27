@@ -7,16 +7,20 @@ namespace CudaFractals
     class Tests
     {
         private:
+        static void testTriangleS(std::string filename, int depth);
+        static void testTriangleP(std::string filename, int depth);
+        static void testMandelbrotS(std::string filename, int depth);
+        static void testMandelbrotP(std::string filename, int depth);
 
         public:
-        static void testTriangleS(std::string, int);
-        static void testTriangleP(std::string, int);
-        static void testMandelbrotS(std::string, int);
-        static void testMandelbrotP(std::string, int);
+        static void singleTriangleS(int res, int depth);
+        static void singleTriangleP(int res, int block, int depth);
+        static void singleMandelbrotS(int res, int depth);
+        static void singleMandelbrotP(int res, int block, int depth);
 
-        static void runAllTests();
         static void runDepthTest();
         static void runResTest();
         static void runBlockTest();
+        static void runAllTests();
     };
 }

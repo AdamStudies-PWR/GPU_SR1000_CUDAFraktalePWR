@@ -139,6 +139,7 @@ void Interface::settingsMenu() const
     std::cin.ignore();
 
     static std::string menu = "";
+    menu.clear();
     menu.append("------------Settings------------\n");
     menu.append("[1] Authors\n");
     menu.append("[2] Change window resolution\n");
@@ -190,16 +191,22 @@ void Interface::testingMenu() const
     std::cin.ignore();
 
     static std::string menu = "";
+    menu.clear();
     menu.append("------------Testing------------\n");
     menu.append("[1] All tests.\n");
     menu.append("[2] Depth test.\n");
     menu.append("[3] Resolution test.\n");
     menu.append("[4] Block size test. \n");
-    menu.append("[5] \n");
-    menu.append("[6] Previous menu\n");
+    menu.append("[5] Single sequential Mandelbrot test.\n");   
+    menu.append("[6] Single parallel Mandelbrot test.\n");    
+    menu.append("[7] Single sequential triangle test.\n");
+    menu.append("[8] Single parallel triangle test.\n");
+    menu.append("[9] Previous menu\n");
     menu.append(">: ");
 
-    int itrInput = 0;
+    int input1 = 0;
+    int input2 = 0;
+    int input3 = 0;
 
     while (true) 
     {   
@@ -220,11 +227,38 @@ void Interface::testingMenu() const
                 Tests::runBlockTest();
                 break;
             case '5':
-//                std::cout <<"Depth: ";
-//                std::cin >> itrInput;
-//                Tests::testMandelbrotP(itrInput);
+                std::cout<<"Resolution: ";
+                std::cin >> input1;
+                std::cout<<"Depth: ";
+                std::cin >> input2;
+                Tests::singleMandelbrotS(input1, input2);
                 break;
             case '6':
+                std::cout<<"Resolution: ";
+                std::cin >> input1;
+                std::cout<<"Block size: ";
+                std::cin >> input2;                
+                std::cout<<"Depth: ";
+                std::cin >> input3;
+                Tests::singleMandelbrotP(input1, input2, input3);
+                break;
+            case '7':
+                std::cout<<"Resolution: ";
+                std::cin >> input1;
+                std::cout<<"Depth: ";
+                std::cin >> input2;
+                Tests::singleTriangleS(input1, input2);
+                break;  
+            case '8':
+                std::cout<<"Resolution: ";
+                std::cin >> input1;
+                std::cout<<"Block size: ";
+                std::cin >> input2;                
+                std::cout<<"Depth: ";
+                std::cin >> input3;
+                Tests::singleTriangleP(input1, input2, input3);
+                break;                          
+            case '9':
                 return;
                 break;
         }

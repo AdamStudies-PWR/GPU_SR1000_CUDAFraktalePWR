@@ -106,3 +106,8 @@ void STrianglePar::setBlockSize(int size)
 {
   if(size > 0) blockSize = size;
 }
+
+int STrianglePar::getBlockSize()
+{
+	return blockSize;
+}
