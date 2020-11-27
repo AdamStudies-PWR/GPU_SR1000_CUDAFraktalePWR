@@ -136,6 +136,8 @@ void Interface::mainMenu(int* argc, char** argv) const
 
 void Interface::settingsMenu() const
 {
+    std::cin.ignore();
+
     static std::string menu = "";
     menu.append("------------Settings------------\n");
     menu.append("[1] Authors\n");
@@ -185,13 +187,15 @@ void Interface::settingsMenu() const
 
 void Interface::testingMenu() const
 {
+    std::cin.ignore();
+
     static std::string menu = "";
     menu.append("------------Testing------------\n");
-    menu.append("[1] Default tests. 5, 10, 15 depth for triangles, 50, 100, 200 for Mandelbrot. Input: resolution (width)\n");
-    menu.append("[2] Sequential triangle test, current resolution. Input: depth\n");
-    menu.append("[3] Parallel triangle test, current resolution. Input: depth\n");
-    menu.append("[4] Sequential Mandelbrot test, current resolution. Input: depth\n");
-    menu.append("[5] Parallel Mandelbrot test, current resolution. Input: depth\n");
+    menu.append("[1] All tests.\n");
+    menu.append("[2] Depth test.\n");
+    menu.append("[3] Resolution test.\n");
+    menu.append("[4] Block size test. \n");
+    menu.append("[5] \n");
     menu.append("[6] Previous menu\n");
     menu.append(">: ");
 
@@ -204,29 +208,21 @@ void Interface::testingMenu() const
         switch (getchar()) 
         {
             case '1':
-                std::cout << "Resolution (width): ";
-                std::cin >> itrInput;
-                Tests::runAllTests(itrInput, GLManager::getWidth());
+                Tests::runAllTests();
                 break;
             case '2':
-                std::cout <<"Depth: ";
-                std::cin >> itrInput;
-                Tests::testTriangleS(itrInput);
+                Tests::runDepthTest();
                 break;
             case '3':
-                std::cout <<"Depth: ";
-                std::cin >> itrInput;
-                Tests::testTriangleP(itrInput);
+                Tests::runResTest();
                 break;
             case '4':
-                std::cout <<"Depth: ";
-                std::cin >> itrInput;
-                Tests::testMandelbrotS(itrInput);
+                Tests::runBlockTest();
                 break;
             case '5':
-                std::cout <<"Depth: ";
-                std::cin >> itrInput;
-                Tests::testMandelbrotP(itrInput);
+//                std::cout <<"Depth: ";
+//                std::cin >> itrInput;
+//                Tests::testMandelbrotP(itrInput);
                 break;
             case '6':
                 return;

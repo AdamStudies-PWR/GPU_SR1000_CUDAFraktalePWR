@@ -9,11 +9,14 @@ namespace CudaFractals
         private:
 
         public:
-        static void testTriangleS(int);
-        static void testTriangleP(int);
-        static void testMandelbrotS(int);
-        static void testMandelbrotP(int);
+        static void testTriangleS(std::string, int);
+        static void testTriangleP(std::string, int);
+        static void testMandelbrotS(std::string, int);
+        static void testMandelbrotP(std::string, int);
 
-        static void runAllTests(int, int);
+        static void runAllTests();
+        static void runDepthTest();
+        static void runResTest();
+        static void runBlockTest();
     };
 }

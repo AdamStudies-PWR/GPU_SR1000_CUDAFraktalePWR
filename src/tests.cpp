@@ -6,15 +6,10 @@
 
 using namespace CudaFractals;
 
-void Tests::testTriangleS(int depth)
+void Tests::testTriangleS(std::string filename, int depth)
 {
-    std::string fname = "triangleseq";
-    fname.append(std::to_string(GLManager::getWidth()));
-    fname.append("r");
-    fname.append(std::to_string(depth));
-    fname.append("d.txt");
-
-    std::ofstream file(fname);
+    filename.append("trianglesequential.txt");
+    std::ofstream file(filename);
 
     for(int i=0; i<100; i++)
     {
@@ -25,16 +20,10 @@ void Tests::testTriangleS(int depth)
     file.close();
 }
 
-void Tests::testTriangleP(int depth)
+void Tests::testTriangleP(std::string filename, int depth)
 {
-    std::string fname = "trianglepar";
-    fname.append(std::to_string(GLManager::getWidth()));
-    fname.append("r");
-    fname.append(std::to_string(depth));
-    fname.append("d");
-    fname.append(".txt");
-
-    std::ofstream file(fname);
+    filename.append("triangleparallel.txt");
+    std::ofstream file(filename);
 
     for(int i=0; i<100; i++)
     {
@@ -45,15 +34,10 @@ void Tests::testTriangleP(int depth)
     file.close();
 }
 
-void Tests::testMandelbrotS(int depth)
+void Tests::testMandelbrotS(std::string filename, int depth)
 {
-    std::string fname = "mandelbrotseq";
-    fname.append(std::to_string(GLManager::getWidth()));
-    fname.append("r");
-    fname.append(std::to_string(depth));
-    fname.append("d.txt");
-
-    std::ofstream file(fname);
+    filename.append("mandelbrotsequential.txt");
+    std::ofstream file(filename);
 
     for(int i=0; i<100; i++)
     {
@@ -63,16 +47,10 @@ void Tests::testMandelbrotS(int depth)
     file.close();
 }
 
-void Tests::testMandelbrotP(int depth)
+void Tests::testMandelbrotP(std::string filename, int depth)
 {
-    std::string fname = "mandelbrotpar";
-    fname.append(std::to_string(GLManager::getWidth()));
-    fname.append("r");
-    fname.append(std::to_string(depth));
-    fname.append("d");
-    fname.append(".txt");
-
-    std::ofstream file(fname);
+    filename.append("mandelbrotparallel.txt");
+    std::ofstream file(filename);
 
     for(int i=0; i<100; i++)
     {
@@ -83,23 +61,76 @@ void Tests::testMandelbrotP(int depth)
     file.close();
 }
 
-void Tests::runAllTests(int res, int originalRes)
+void Tests::runDepthTest()
 {
-    GLManager::setResolution(res);
-
     int depth;
+
+    std::string filename;
 
     for( depth = 5; depth <=15 ; depth+=5)
     {
-        testTriangleS(depth);
-        testTriangleP(depth);
+        filename = "depth";
+        filename.append(std::to_string(depth));
+
+        testTriangleS(filename, depth);
+        testTriangleP(filename, depth);
     }
     
     for(depth = 50; depth <=200; depth*=2)
     {
-        testMandelbrotS(depth);
-        testMandelbrotP(depth);
+        filename = "depth";
+        filename.append(std::to_string(depth));
+
+        testMandelbrotS(filename, depth);
+        testMandelbrotP(filename, depth);
     }
 
-    GLManager::setResolution(originalRes);
+}
+
+void Tests::runResTest()
+{
+    int original = GLManager::getWidth();
+
+    std::string filename;
+
+    for(int res = 500; res <= 2000; res*=2 )
+    {
+        filename = "res";
+        filename.append(std::to_string(res));
+
+        GLManager::setResolution(res);
+        testTriangleS(filename, 10);
+        testTriangleP(filename, 15);
+        testMandelbrotS(filename, 50);
+        testMandelbrotP(filename, 500);
+    }
+
+    GLManager::setResolution(original);
+}
+
+void Tests::runBlockTest()
+{
+    int originaltri = 6;
+    int originalman = 512;
+
+    std::string filename;
+
+    for(int size = 1; size<=1024; size*=2)
+    {
+        filename= "block";
+        filename.append(std::to_string(size));
+
+        testTriangleP(filename, 15);
+        testMandelbrotP(filename, 500);
+    }
+
+    STrianglePar::setBlockSize(originaltri);
+    Parallel::Mandelbrot::setBlockSize(originalman);
+}
+
+void Tests::runAllTests()
+{
+    runDepthTest();
+    runResTest();
+    runBlockTest();
 }
