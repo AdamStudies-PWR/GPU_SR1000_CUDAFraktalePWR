@@ -22,6 +22,7 @@ add_executable(FractalApp main.cu ${SOURCES}
     "src/mandelbrotParallel.cu"
     "include/STrianglePar.hpp"
     "src/STrianglePar.cu"
+    "include/tests.hpp"
 )
 
 target_compile_features(FractalApp PUBLIC cxx_std_17)
