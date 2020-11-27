@@ -85,8 +85,8 @@ void Tests::runAllTests(int res)
 
     for( depth = 5; depth <=15 ; depth+=5)
     {
-     //   Tests::testTriangleS(depth);
-     //   Tests::testTriangleP(depth);
+        Tests::testTriangleS(depth);
+        Tests::testTriangleP(depth);
     }
     
     for(depth = 50; depth <=200; depth*=2)
