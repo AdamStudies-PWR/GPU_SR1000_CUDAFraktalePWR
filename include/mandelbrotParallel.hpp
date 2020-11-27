@@ -25,12 +25,14 @@ namespace CudaFractals
 
             static void renderFunction(int limit);
             static void draw();
+            static double getTime();
 
         private:
             static float3 *hostArr;
             static float3 *devArr;
             static int height;
             static int width;
+            static double time;
         };
 
     } // namespace Parallel

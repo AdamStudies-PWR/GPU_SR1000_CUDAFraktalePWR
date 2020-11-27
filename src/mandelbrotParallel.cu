@@ -3,13 +3,12 @@
 
 #include <cmath>
 #include <fstream>
+#include <chrono>
 
 #include "GLManager.hpp"
 #include "constants.hpp"
 #include "cudaCheck.hpp"
 #include "mandelbrotParallel.hpp"
-
-#include <iostream>
 
 using namespace CudaFractals::Parallel;
 
@@ -17,6 +16,7 @@ float3 *Mandelbrot::hostArr = nullptr;
 float3 *Mandelbrot::devArr = nullptr;
 int Mandelbrot::height;
 int Mandelbrot::width;
+double Mandelbrot::time;
 
 __device__ inline point_t scalePoint(const point_t point, const int width, const int height) {
   return {xScaleMandelbrotStart + point.x * (xScaleMandelbrotWidth / (float)width),
@@ -69,6 +69,10 @@ __global__ void calcMandelbrot(float3 *dst, const int width, const int height, c
 
 void Mandelbrot::renderFunction(int limit) {
   if (limit <= 0) limit = 100;
+  std::chrono::high_resolution_clock::time_point start;
+  std::chrono::high_resolution_clock::time_point stop;
+  start = std::chrono::high_resolution_clock::now();
+
   width = GLManager::getWidth();
   height = GLManager::getHeight();
 
@@ -84,6 +88,10 @@ void Mandelbrot::renderFunction(int limit) {
                         cudaMemcpyDeviceToHost));
 
   CUDA_CHECK(cudaFree(devArr));
+
+  stop = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
+	time = duration.count();	
 }
 
 void Mandelbrot::draw(void) {
@@ -104,4 +112,9 @@ void Mandelbrot::draw(void) {
 
   glEnd();
   glFlush();
+}
+
+double Mandelbrot::getTime()
+{
+  return time;
 }

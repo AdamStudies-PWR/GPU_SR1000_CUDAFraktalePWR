@@ -7,9 +7,11 @@ void STriangleSeq::Generate(int iterations) {
 
 	std::chrono::high_resolution_clock::time_point start;
 	std::chrono::high_resolution_clock::time_point stop;
-	Vertex2D p0 = { -600.0f, -350.0f };
-	Vertex2D p1 = { 600.0f, -350.0f };
-	Vertex2D p2 = { 0.0f, 350.0f };
+	int width = GLManager::getWidth();
+	int height = GLManager::getHeight();
+	Vertex2D p0 = { -width/2, -height/2 };
+	Vertex2D p1 = { width/2, -height/2 };
+	Vertex2D p2 = { 0.0f, height/2 };
 	Vertex2D p3, p4, p5;
 	Triangle triangle = { p0, p1, p2 };
 	std::vector < STriangleSeq::Triangle > iterationBuffer;

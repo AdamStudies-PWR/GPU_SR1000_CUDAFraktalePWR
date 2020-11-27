@@ -7,6 +7,7 @@
 #include "STrianglePar.hpp"
 #include "mandelbrotSequential.hpp"
 #include "mandelbrotParallel.hpp"
+#include "tests.hpp"
 
 using namespace CudaFractals;
 
@@ -70,8 +71,8 @@ void Interface::mainMenu(int* argc, char** argv) const
                 std::cout << "Set length: ";
                 std::cin >> itrInput;
                 result = MandelbrotSequential::generateFractal(itrInput);
-                GLManager::GLInitialize(argc, argv, seqMandelbrotDisplay);
                 std::cout << "Duration: " << result << " s";
+                GLManager::GLInitialize(argc, argv, seqMandelbrotDisplay);
                 getchar();  
             break;
         case '2':
@@ -84,6 +85,7 @@ void Interface::mainMenu(int* argc, char** argv) const
                 std::cout << "Set length: ";
                 std::cin >> itrInput;
                 Parallel::Mandelbrot::renderFunction(itrInput);
+                std::cout << "Duration: "<< Parallel::Mandelbrot::getTime()<<" s";
                 GLManager::GLInitialize(argc, argv, parMandelbrotDisplay);
             break;
         case '3':
@@ -120,6 +122,12 @@ void Interface::mainMenu(int* argc, char** argv) const
             break;
         case '6':
             return;
+            break;
+        case '8':
+            std::cout << "... hacking in progress ... \n";
+            std::cout << "Resolution (width): ";
+            std::cin >> itrInput;
+            Tests::runAllTests(itrInput);
             break;
         }
         std::cin.ignore();

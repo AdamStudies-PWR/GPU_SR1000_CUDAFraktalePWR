@@ -1,6 +1,9 @@
 #include "interface.hpp"
 #include "GLManager.hpp"
 
+	int GLManager::window_width = 1280;
+	int GLManager::window_height = 720;
+
 void GLManager::ChangeSize(GLsizei horizontal, GLsizei vertical)
 {
     glMatrixMode(GL_PROJECTION);
@@ -12,13 +15,13 @@ void GLManager::ChangeSize(GLsizei horizontal, GLsizei vertical)
 void GLManager::GLInitialize(int* argc, char** argv, void(*displayCallback)(void)) {   
     glutInit(argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
-    glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+    glutInitWindowSize(window_width, window_height);
     glutCreateWindow("CUDA Fractals");
     glutDisplayFunc(displayCallback);
     glutReshapeFunc(ChangeSize);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glDisable(GL_DEPTH_TEST);
-    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    glViewport(0, 0, window_width, window_height);
     glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE,
               GLUT_ACTION_GLUTMAINLOOP_RETURNS);
     glutMainLoop();
@@ -26,11 +29,19 @@ void GLManager::GLInitialize(int* argc, char** argv, void(*displayCallback)(void
 
 int GLManager::getHeight()
 {
-    return WINDOW_HEIGHT;
+    return window_height;
 }
 
 
 int GLManager::getWidth()
 {
-    return WINDOW_WIDTH;
+    return window_width;
+}
+
+void GLManager::setResolution(int width)
+{
+    if(width <= 150) width = 1280;
+
+    window_width = width;
+    window_height = (9.0/16.0)*width;
 }
