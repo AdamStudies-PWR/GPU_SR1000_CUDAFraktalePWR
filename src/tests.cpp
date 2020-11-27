@@ -8,10 +8,11 @@ using namespace CudaFractals;
 
 void Tests::testTriangleS(int depth)
 {
-        std::string fname = std::to_string(GLManager::getWidth());
-    fname.append("triangleseq");
+    std::string fname = "triangleseq";
+    fname.append(std::to_string(GLManager::getWidth()));
+    fname.append("r");
     fname.append(std::to_string(depth));
-    fname.append(".txt");
+    fname.append("d.txt");
 
     std::ofstream file(fname);
 
@@ -26,9 +27,11 @@ void Tests::testTriangleS(int depth)
 
 void Tests::testTriangleP(int depth)
 {
-        std::string fname = std::to_string(GLManager::getWidth());
-    fname.append("trianglepar");
+    std::string fname = "trianglepar";
+    fname.append(std::to_string(GLManager::getWidth()));
+    fname.append("r");
     fname.append(std::to_string(depth));
+    fname.append("d");
     fname.append(".txt");
 
     std::ofstream file(fname);
@@ -44,10 +47,11 @@ void Tests::testTriangleP(int depth)
 
 void Tests::testMandelbrotS(int depth)
 {
-    std::string fname = std::to_string(GLManager::getWidth());
-    fname.append("mandelbrotseq");
+    std::string fname = "mandelbrotseq";
+    fname.append(std::to_string(GLManager::getWidth()));
+    fname.append("r");
     fname.append(std::to_string(depth));
-    fname.append(".txt");
+    fname.append("d.txt");
 
     std::ofstream file(fname);
 
@@ -61,9 +65,11 @@ void Tests::testMandelbrotS(int depth)
 
 void Tests::testMandelbrotP(int depth)
 {
-    std::string fname = std::to_string(GLManager::getWidth());
-    fname.append("mandelbrotpar");
+    std::string fname = "mandelbrotpar";
+    fname.append(std::to_string(GLManager::getWidth()));
+    fname.append("r");
     fname.append(std::to_string(depth));
+    fname.append("d");
     fname.append(".txt");
 
     std::ofstream file(fname);
@@ -77,7 +83,7 @@ void Tests::testMandelbrotP(int depth)
     file.close();
 }
 
-void Tests::runAllTests(int res)
+void Tests::runAllTests(int res, int originalRes)
 {
     GLManager::setResolution(res);
 
@@ -85,13 +91,15 @@ void Tests::runAllTests(int res)
 
     for( depth = 5; depth <=15 ; depth+=5)
     {
-        Tests::testTriangleS(depth);
-        Tests::testTriangleP(depth);
+        testTriangleS(depth);
+        testTriangleP(depth);
     }
     
     for(depth = 50; depth <=200; depth*=2)
     {
-        Tests::testMandelbrotS(depth);
-        Tests::testMandelbrotP(depth);
+        testMandelbrotS(depth);
+        testMandelbrotP(depth);
     }
+
+    GLManager::setResolution(originalRes);
 }

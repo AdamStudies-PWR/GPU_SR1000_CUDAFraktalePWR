@@ -14,6 +14,6 @@ namespace CudaFractals
         static void testMandelbrotS(int);
         static void testMandelbrotP(int);
 
-        static void runAllTests(int);
+        static void runAllTests(int, int);
     };
 }

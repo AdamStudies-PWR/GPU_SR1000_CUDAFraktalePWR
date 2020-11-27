@@ -7,6 +7,7 @@
 std::vector<STrianglePar::Triangle> STrianglePar::triangles;
 GLfloat STrianglePar::r, STrianglePar::g, STrianglePar::b;
 double STrianglePar::time;
+int STrianglePar::blockSize = 6;
 
 __global__ void SubdivideTriangles(STrianglePar::Triangle* sourceTriangles, STrianglePar::Triangle* subdividedTriangles) {
 	STrianglePar::Vertex2D p3, p4, p5;
@@ -70,7 +71,7 @@ void STrianglePar::Generate(int iterations) {
 		
 		cudaMalloc((void**)&subdividedTrisOnDevice, subdividedTrisVecSize);
 	
-		SubdivideTriangles<<<numBlocks,6>>>(sourceTrisOnDevice, subdividedTrisOnDevice);
+		SubdivideTriangles<<<numBlocks,blockSize>>>(sourceTrisOnDevice, subdividedTrisOnDevice);
 		cudaDeviceSynchronize();
 		cudaFree(sourceTrisOnDevice);
 		sourceTrisOnDevice = subdividedTrisOnDevice;		
@@ -99,4 +100,9 @@ void STrianglePar::DrawTriangleList() {
 
 double STrianglePar::GetTime() {
 	return time;
+}
+
+void STrianglePar::setBlockSize(int size)
+{
+  if(size > 0) blockSize = size;
 }

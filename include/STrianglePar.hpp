@@ -22,10 +22,12 @@ private:
     static double time;
 	static std::vector<Triangle> triangles;
 	static GLfloat r, g, b;
+    static int blockSize;
 
 public:
     static void SetupDrawingColor(GLfloat r_, GLfloat g_, GLfloat b_);
     static void Generate(int iterations);
     static void DrawTriangleList();
     static double GetTime();
+    static void setBlockSize(int);
 };

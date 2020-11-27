@@ -24,6 +24,8 @@ public:
     void printCredits() const;
     bool detectGPU() const;
     void mainMenu(int* argc, char** argv) const;
+    void settingsMenu() const;
+    void testingMenu() const;
 
 };
 }  // namespace CudaFractals

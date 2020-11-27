@@ -24,7 +24,7 @@ void Interface::printCredits() const
     utils.clear();
     static const char* message = "Authors:\n"
                                  "Adam Krizar 241276\n"
-                                 "Katarzyna Czajkowska\n"
+                                 "Katarzyna Czajkowska 242079\n"
                                  "Przemyslaw Mikluszka\n"
                                  "Patryk Skowronski 237454\n"
                                  "Marcin Czepiela\n"
@@ -49,7 +49,7 @@ void Interface::mainMenu(int* argc, char** argv) const
     menu.append("[2] Mandelbrot set - Parallel\n");
     menu.append("[3] Sierpinski triangle - Sequential\n");
     menu.append("[4] Sierpinski triangle - Parallel\n");
-    menu.append("[5] Authors\n");
+    menu.append("[5] Settings\n");
     menu.append("[6] Exit\n");
     menu.append(">: ");
 
@@ -87,6 +87,7 @@ void Interface::mainMenu(int* argc, char** argv) const
                 Parallel::Mandelbrot::renderFunction(itrInput);
                 std::cout << "Duration: "<< Parallel::Mandelbrot::getTime()<<" s";
                 GLManager::GLInitialize(argc, argv, parMandelbrotDisplay);
+                getchar();
             break;
         case '3':
             if (seqSTrinagleDisplay == nullptr)
@@ -118,17 +119,118 @@ void Interface::mainMenu(int* argc, char** argv) const
                 getchar();  
             break;
         case '5':
-            printCredits();
+            settingsMenu();
             break;
         case '6':
             return;
             break;
         case '8':
             std::cout << "... hacking in progress ... \n";
-            std::cout << "Resolution (width): ";
-            std::cin >> itrInput;
-            Tests::runAllTests(itrInput);
+            getchar();
+            testingMenu();
             break;
+        }
+        std::cin.ignore();
+    }
+}
+
+void Interface::settingsMenu() const
+{
+    static std::string menu = "";
+    menu.append("------------Settings------------\n");
+    menu.append("[1] Authors\n");
+    menu.append("[2] Change window resolution\n");
+    menu.append("[3] Change Mandelbrot set block size\n");
+    menu.append("[4] Change Siepinski triangle block size\n");
+    menu.append("[5] Enter testing menu \n");
+    menu.append("[6] Previous menu\n");
+    menu.append(">: ");
+
+    int itrInput = 0;
+
+    while (true) 
+    {   
+        utils.clear();     
+        std::cout << menu;
+        switch (getchar()) 
+        {
+            case '1':
+                printCredits();
+                break;
+            case '2':
+                std::cout << "Resolution (width): ";
+                std::cin >> itrInput;
+                GLManager::setResolution(itrInput);
+                break;
+            case '3':
+                std::cout << "Block size: ";
+                std::cin >> itrInput;
+                Parallel::Mandelbrot::setBlockSize(itrInput);
+                break;
+            case '4':
+                std::cout << "Block size: ";
+                std::cin >> itrInput;
+                STrianglePar::setBlockSize(itrInput);
+                break;
+            case '5':
+                testingMenu();
+                break;
+            case '6':
+                return;
+                break;
+        }
+        std::cin.ignore();
+    }
+}
+
+void Interface::testingMenu() const
+{
+    static std::string menu = "";
+    menu.append("------------Testing------------\n");
+    menu.append("[1] Default tests. 5, 10, 15 depth for triangles, 50, 100, 200 for Mandelbrot. Input: resolution (width)\n");
+    menu.append("[2] Sequential triangle test, current resolution. Input: depth\n");
+    menu.append("[3] Parallel triangle test, current resolution. Input: depth\n");
+    menu.append("[4] Sequential Mandelbrot test, current resolution. Input: depth\n");
+    menu.append("[5] Parallel Mandelbrot test, current resolution. Input: depth\n");
+    menu.append("[6] Previous menu\n");
+    menu.append(">: ");
+
+    int itrInput = 0;
+
+    while (true) 
+    {   
+        utils.clear();     
+        std::cout << menu;
+        switch (getchar()) 
+        {
+            case '1':
+                std::cout << "Resolution (width): ";
+                std::cin >> itrInput;
+                Tests::runAllTests(itrInput, GLManager::getWidth());
+                break;
+            case '2':
+                std::cout <<"Depth: ";
+                std::cin >> itrInput;
+                Tests::testTriangleS(itrInput);
+                break;
+            case '3':
+                std::cout <<"Depth: ";
+                std::cin >> itrInput;
+                Tests::testTriangleP(itrInput);
+                break;
+            case '4':
+                std::cout <<"Depth: ";
+                std::cin >> itrInput;
+                Tests::testMandelbrotS(itrInput);
+                break;
+            case '5':
+                std::cout <<"Depth: ";
+                std::cin >> itrInput;
+                Tests::testMandelbrotP(itrInput);
+                break;
+            case '6':
+                return;
+                break;
         }
         std::cin.ignore();
     }

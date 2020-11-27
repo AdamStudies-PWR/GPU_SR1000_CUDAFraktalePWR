@@ -17,6 +17,7 @@ float3 *Mandelbrot::devArr = nullptr;
 int Mandelbrot::height;
 int Mandelbrot::width;
 double Mandelbrot::time;
+int Mandelbrot::blockSize = 512;
 
 __device__ inline point_t scalePoint(const point_t point, const int width, const int height) {
   return {xScaleMandelbrotStart + point.x * (xScaleMandelbrotWidth / (float)width),
@@ -80,7 +81,7 @@ void Mandelbrot::renderFunction(int limit) {
   hostArr = new float3[width * height];
   CUDA_CHECK(cudaMalloc((void **)&devArr, width * height * sizeof(float3)));
 
-  dim3 blockDims(512, 1, 1);
+  dim3 blockDims(blockSize, 1, 1);
   dim3 gridDims((unsigned int)ceil((double)(width * height / blockDims.x)), 1, 1);
 
   calcMandelbrot<<<gridDims, blockDims>>>(devArr, width, height, limit);
@@ -117,4 +118,9 @@ void Mandelbrot::draw(void) {
 double Mandelbrot::getTime()
 {
   return time;
+}
+
+void Mandelbrot::setBlockSize(int size)
+{
+  if(size > 0) blockSize = size;
 }

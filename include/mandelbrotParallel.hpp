@@ -26,6 +26,7 @@ namespace CudaFractals
             static void renderFunction(int limit);
             static void draw();
             static double getTime();
+            static void setBlockSize(int);
 
         private:
             static float3 *hostArr;
@@ -33,6 +34,7 @@ namespace CudaFractals
             static int height;
             static int width;
             static double time;
+            static int blockSize;
         };
 
     } // namespace Parallel
