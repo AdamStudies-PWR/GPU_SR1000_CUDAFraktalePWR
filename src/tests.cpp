@@ -190,6 +190,9 @@ void Tests::runBlockTest()
         filename= "block";
         filename.append(std::to_string(size));
 
+        STrianglePar::setBlockSize(size);
+        Parallel::Mandelbrot::setBlockSize(size);
+        
         testTriangleP(filename, 15);
         testMandelbrotP(filename, 500);
     }
