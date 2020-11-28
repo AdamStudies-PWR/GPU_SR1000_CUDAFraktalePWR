@@ -125,7 +125,7 @@ void Tests::singleMandelbrotP(int res, int block, int depth)
     filename.append("d");
     filename.append(std::to_string(depth));
 
-    testMandelbrotS(filename, depth);
+    testMandelbrotP(filename, depth);
 
     GLManager::setResolution(originalres);
     Parallel::Mandelbrot::setBlockSize(originalblock);
