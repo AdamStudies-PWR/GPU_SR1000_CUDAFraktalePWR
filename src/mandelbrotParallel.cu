@@ -1,9 +1,9 @@
 #include <cuda_runtime.h>
 #include <stdio.h>
 
+#include <chrono>
 #include <cmath>
 #include <fstream>
-#include <chrono>
 
 #include "GLManager.hpp"
 #include "constants.hpp"
@@ -19,13 +19,16 @@ int Mandelbrot::width;
 double Mandelbrot::time;
 int Mandelbrot::blockSize = 512;
 
-__device__ inline point_t scalePoint(const point_t point, const int width, const int height) {
-  return {xScaleMandelbrotStart + point.x * (xScaleMandelbrotWidth / (float)width),
-          yScaleMandelbrotStart + point.y * (yScaleMandelbrotWidth / (float)height)};
+__device__ inline point_t scalePoint(const point_t point, const int width,
+                                     const int height) {
+  return {
+      xScaleMandelbrotStart + point.x * (xScaleMandelbrotWidth / (float)width),
+      yScaleMandelbrotStart +
+          point.y * (yScaleMandelbrotWidth / (float)height)};
 }
 
-__device__ inline int calcMandelbrotPoint(const point_t point, const int width, const int height,
-                                          const int maxIter) {
+__device__ inline int calcMandelbrotPoint(const point_t point, const int width,
+                                          const int height, const int maxIter) {
   auto scaled = scalePoint(point, width, height);
   float x0 = scaled.x;
   float y0 = scaled.y;
@@ -40,14 +43,15 @@ __device__ inline int calcMandelbrotPoint(const point_t point, const int width, 
     x2 = x * x;
     y2 = y * y;
     w = (x + y) * (x + y);
-    i++;
   }
 
   return i;
 }
 
-__global__ void calcMandelbrot(float3 *dst, const int width, const int height, const int maxIter) {
-  const float3 colors = {0.5f / (float)maxIter, 0.5f / (float)maxIter, 1.0f / (float)maxIter};
+__global__ void calcMandelbrot(float3 *dst, const int width, const int height,
+                               const int maxIter) {
+  const float3 colors = {0.5f / (float)maxIter, 0.5f / (float)maxIter,
+                         1.0f / (float)maxIter};
   const int pixel = blockIdx.x * blockDim.x + threadIdx.x;
   const int ix = pixel % width;
   const int iy = (pixel - ix) / width;
@@ -82,7 +86,8 @@ void Mandelbrot::renderFunction(int limit) {
   CUDA_CHECK(cudaMalloc((void **)&devArr, width * height * sizeof(float3)));
 
   dim3 blockDims(blockSize, 1, 1);
-  dim3 gridDims((unsigned int)ceil((double)(width * height / blockDims.x)), 1, 1);
+  dim3 gridDims((unsigned int)ceil((double)(width * height / blockDims.x)), 1,
+                1);
 
   calcMandelbrot<<<gridDims, blockDims>>>(devArr, width, height, limit);
   CUDA_CHECK(cudaMemcpy(hostArr, devArr, width * height * sizeof(float3),
@@ -91,8 +96,9 @@ void Mandelbrot::renderFunction(int limit) {
   CUDA_CHECK(cudaFree(devArr));
 
   stop = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
-	time = duration.count();	
+  std::chrono::duration<double> duration =
+      std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
+  time = duration.count();
 }
 
 void Mandelbrot::draw(void) {
@@ -115,17 +121,10 @@ void Mandelbrot::draw(void) {
   glFlush();
 }
 
-double Mandelbrot::getTime()
-{
-  return time;
+double Mandelbrot::getTime() { return time; }
+
+void Mandelbrot::setBlockSize(int size) {
+  if (size > 0) blockSize = size;
 }
 
-void Mandelbrot::setBlockSize(int size)
-{
-  if(size > 0) blockSize = size;
-}
-
-int Mandelbrot::getBlockSize()
-{
-	return blockSize;
-}
+int Mandelbrot::getBlockSize() { return blockSize; }
