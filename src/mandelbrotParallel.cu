@@ -47,7 +47,7 @@ __device__ inline int calcMandelbrotPoint(const point_t point, const int width, 
 }
 
 __global__ void calcMandelbrot(float3 *dst, const int width, const int height, const int maxIter) {
-  const float3 colors = {0.005f, 0.005f, 0.01f};
+  const float3 colors = {0.5f / (float)maxIter, 0.5f / (float)maxIter, 1.0f / (float)maxIter};
   const int pixel = blockIdx.x * blockDim.x + threadIdx.x;
   const int ix = pixel % width;
   const int iy = (pixel - ix) / width;
