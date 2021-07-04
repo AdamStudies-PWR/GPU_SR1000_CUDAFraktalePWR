@@ -14,7 +14,7 @@ void STriangleSeq::Generate(int iterations) {
 	Vertex2D p2 = { 0.0f, height/2 };
 	Vertex2D p3, p4, p5;
 	Triangle triangle = { p0, p1, p2 };
-	std::vector < STriangleSeq::Triangle > iterationBuffer;
+	std::vector <STriangleSeq::Triangle> iterationBuffer;
 	
 	iterationBuffer.push_back(triangle);	
 	time = 0;

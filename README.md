@@ -13,14 +13,12 @@ Dr inż. Marek Woda
 
 ## Instrukcje kompilacji
 
-Instrukcje konfiguracji VS Code: [tutaj](https://code.visualstudio.com/docs/cpp/cmake-linux)
+### Wymagania:
+* CUDA
+* OpenGL
+* GLUT
 
-Na szybko:
-
-* Jeżeli wprawdziliśmy jakieś zmiany w CMakeList.txt:
-
-crtl+shift+p i wpisujemy CMake: configure [F7]
-
-* Jeżeli edytowaliśmy tylko pliki .hpp/.cpp:
-
-crtl+shift+p u wpisujemy: CMake: Build [F5]
+### Na szybko:
+* Instrukcje konfiguracji VS Code: [tutaj](https://code.visualstudio.com/docs/cpp/cmake-linux)
+* Jeżeli wprawdziliśmy jakieś zmiany w CMakeList.txt: crtl+shift+p i wpisujemy CMake: configure [F7]
+* Jeżeli edytowaliśmy tylko pliki .hpp/.cpp: crtl+shift+p u wpisujemy: CMake: Build [F5]
